@@ -7,6 +7,8 @@
 RTC_DS3231 rtc;
 Adafruit_7segment display = Adafruit_7segment();
 
+DateTime start(2000, 1, 1, 0, 0, 0);
+
 void setup() {
   pinMode(BUTTON_PLUS, INPUT_PULLUP);
   pinMode(BUTTON_MINUS, INPUT_PULLUP);
@@ -22,7 +24,7 @@ void setup() {
   bool minusPressed = digitalRead(BUTTON_MINUS) == LOW;
 
   if (plusPressed && minusPressed) {
-    rtc.adjust(DateTime(2000, 1, 1, 0, 0, 0)); // Setze auf "Tag 0"
+    rtc.adjust(start); // Setze auf "Tag 0"
     display.print(MAX_DAYS);
     display.writeDisplay();
     delay(2000);
@@ -33,7 +35,6 @@ void setup() {
 // --- Helferfunktion zur Berechnung ---
 int calculateDaysLeft() {
   DateTime now = rtc.now();
-  DateTime start(2000, 1, 1, 0, 0, 0);
   TimeSpan elapsed = now - start;
 
   int daysElapsed = elapsed.days();
@@ -43,14 +44,15 @@ int calculateDaysLeft() {
 }
 
 void loop() {
-  DateTime now = rtc.now();
   bool plusPressed = digitalRead(BUTTON_PLUS) == LOW;
   bool minusPressed = digitalRead(BUTTON_MINUS) == LOW;
 
   // --- Buttonaktionen ---
   if (plusPressed) {
+    DateTime now = rtc.now();
     rtc.adjust(now - TimeSpan(1, 0, 0, 0)); // -1 Tag
   } else if (minusPressed) {
+    DateTime now = rtc.now();
     rtc.adjust(now + TimeSpan(1, 0, 0, 0)); // +1 Tag
   }
 
