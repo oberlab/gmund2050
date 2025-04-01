@@ -7,7 +7,7 @@
 #define BUTTON_MINUS 13
 
 #define DISPLAY_I2C_ADDRESS 0x70
-#define MAX_DAYS 9125 // 25 Jahre
-#define DISPLAY_BRIGHTNESS 10
+#define MAX_DAYS 9131 // 25 Jahre
+#define DISPLAY_BRIGHTNESS 1
 
 #endif
